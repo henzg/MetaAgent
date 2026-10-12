@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MrCosmo</string>
+    <string name="refresh">Refresh</string>
+    <string name="accessibility_description">Lets MrCosmo switch apps.</string>
 </resources>
