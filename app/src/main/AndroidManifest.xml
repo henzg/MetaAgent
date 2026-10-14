@@ -7,6 +7,7 @@
         tools:ignore="ForegroundServicesPolicy" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <queries>
         <package android:name="com.ghostlight.novaxr" />
@@ -18,7 +19,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ControlAgent">
+        android:theme="@style/Theme.ControlAgent"
+        android:usesCleartextTraffic="true">
+        <!-- TODO: make usesCleartextTraffic more secure by limiting network access before prod release -->
 
         <activity
             android:name=".MainActivity"

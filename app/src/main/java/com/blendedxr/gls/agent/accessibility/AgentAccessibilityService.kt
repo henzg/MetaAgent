@@ -17,12 +17,22 @@ class AgentAccessibilityService : AccessibilityService() {
             private set
     }
 
-    override fun onAccessibilityEvent(event: AccessibilityEvent?) {}
+    override fun onAccessibilityEvent(event: AccessibilityEvent?) {
+        if (event == null) {
+            return
+        }
+
+        val message = "pkg=${event.packageName}|class=${event.className}|eventType=${AccessibilityEvent.eventTypeToString(event.eventType)}"
+
+        Log.i(TAG, message)
+
+    }
 
     override fun onServiceConnected() {
         super.onServiceConnected()
         instance = this
-        android.util.Log.i(TAG, "Accessibility Service has connected to MrCosmo.")
+        val message = "Accessibility service has been connected to the Agent."
+        Log.i(TAG, message)
     }
 
     override fun onDestroy() {
@@ -39,7 +49,7 @@ class AgentAccessibilityService : AccessibilityService() {
 
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
-        Log.i(TAG, "startActivity sent for ${packageName}")
+        Log.i(TAG, "startActivity sent for $packageName")
         return true
     }
 

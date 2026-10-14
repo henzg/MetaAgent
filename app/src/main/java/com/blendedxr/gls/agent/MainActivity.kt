@@ -32,7 +32,7 @@ class MainActivity : Activity() {
         statusText = findViewById<TextView>(R.id.status_text)
 
         // validation for services starting w/ bootlogs
-        //AgentService.start(this)
+        AgentService.start(this)
     }
 
     override fun onResume() {
