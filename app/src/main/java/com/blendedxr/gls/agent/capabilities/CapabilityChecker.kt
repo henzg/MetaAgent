@@ -19,7 +19,7 @@ class CapabilityChecker(private val context: Context) {
     // helper functs to populate checkAll
     private fun checkDeviceAdmin(): Capability {
         val isAdmin = policyManager.isAdminActive(adminComponent)
-        val deviceAdminName = "Your Agent"
+        val deviceAdminName = "Admin Priv"
         val deviceAdminDetail = if(isAdmin) "MrCosmo is your Admin" else "MrCosmo is under privileged."
         return Capability(name = deviceAdminName, ok = isAdmin, detail = deviceAdminDetail)
     }

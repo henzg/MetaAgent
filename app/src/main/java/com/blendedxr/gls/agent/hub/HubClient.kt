@@ -28,12 +28,14 @@ class HubClient(private val url: String,
         try {
             connection.start().await()
             connection.invoke("Hello", deviceId, deviceName, "").await()
+            HubStatus.connected = true
             Log.i(TAG, "Connected to hub and said Hello")
         } catch (e: Exception) {
             if (e is CancellationException) {
                 throw e
             }
             Log.e(TAG, "Hub connection failed: ${e.message}", e)
+            HubStatus.connected = false
             connection.stop()
         }
     }

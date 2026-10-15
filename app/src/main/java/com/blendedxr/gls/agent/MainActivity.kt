@@ -31,7 +31,6 @@ class MainActivity : Activity() {
         checker = CapabilityChecker(context = this)
         statusText = findViewById<TextView>(R.id.status_text)
 
-        // validation for services starting w/ bootlogs
         AgentService.start(this)
     }
 

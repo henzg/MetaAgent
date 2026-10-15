@@ -20,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import com.blendedxr.gls.agent.config.AgentSettings
 
 class AgentService : Service() {
 
@@ -36,7 +37,7 @@ class AgentService : Service() {
         Log.i(TAG, "AgentService started, pid=${android.os.Process.myPid()}")
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val ok = AgentAccessibilityService.instance?.launchPackage("com.ghostlight.novaxr")
+            val ok = AgentAccessibilityService.instance?.launchPackage(STARTUP_APP)
             Log.i(TAG, "launch result: $ok")
         },LAUNCH_DELAY_MS)
         return START_STICKY
@@ -72,9 +73,10 @@ class AgentService : Service() {
         private const val NOTIFICATION_ID = 69
         private const val LAUNCH_DELAY_MS = 20_000L
         // hub
-        private const val HUB_URL = "http://192.168.8.151:5000/hubs/headsetcontrol"
-        private const val DEVICE_ID = "2G0YC5ZG9N02JR"
-        private const val DEVICE_NAME = "Dev Quest"
+        private const val HUB_URL = AgentSettings.KEY_HUB_URL
+        private const val DEVICE_ID = AgentSettings.KEY_DEVICE_ID
+        private const val DEVICE_NAME = AgentSettings.KEY_DEVICE_NAME
+        private const val STARTUP_APP = AgentSettings.KEY_AUTO_LAUNCH_PACKAGE
         // methods
         fun start(context: Context) {
             context.startForegroundService(
