@@ -9,10 +9,21 @@ import kotlinx.coroutines.rx3.await
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.seconds
 
+import com.blendedxr.gls.agent.actions.DeviceActions
+
 class HubClient(private val url: String,
                 private val deviceId: String,
-                private val deviceName: String) {
+                private val deviceName: String,
+                private val actions: DeviceActions) {
 
+    private val connection: HubConnection = HubConnectionBuilder.create(url).build()
+
+    init {
+        connection.on("Launch", { packageName:String ->
+            val result = actions.launch(packageName)
+            Log.i(TAG, "Launch: $result")
+        }, String::class.java)
+    }
     private suspend fun connect() {
         try {
             connection.start().await()
@@ -39,7 +50,6 @@ class HubClient(private val url: String,
         connection.stop()
     }
 
-    private val connection: HubConnection = HubConnectionBuilder.create(url).build()
     companion object {
         private const val TAG = "MrCosmo:Hub"
         private val RETRY_DELAY = 5.seconds

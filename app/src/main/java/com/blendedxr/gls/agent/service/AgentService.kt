@@ -13,6 +13,7 @@ import android.os.Looper
 import android.util.Log
 import com.blendedxr.gls.agent.R
 import com.blendedxr.gls.agent.accessibility.AgentAccessibilityService
+import com.blendedxr.gls.agent.actions.DeviceActions
 import com.blendedxr.gls.agent.hub.HubClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,6 +27,7 @@ class AgentService : Service() {
         super.onCreate()
         startForeground(NOTIFICATION_ID, buildNotification(),
             ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE)
+        hubClient = HubClient(HUB_URL, DEVICE_ID, DEVICE_NAME, DeviceActions(this))
         scope.launch { hubClient.run() }
         Log.i(TAG, "AgentService created")
     }
@@ -63,7 +65,7 @@ class AgentService : Service() {
     }
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-    private val hubClient = HubClient(HUB_URL, DEVICE_ID, DEVICE_NAME)
+    private lateinit var hubClient: HubClient
     companion object {
         private const val TAG = "MrCosmo:Service"
         private const val CHANNEL_ID = "agent"
